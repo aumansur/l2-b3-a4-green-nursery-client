@@ -1,6 +1,7 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+// import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 export type TCategory = "Herbs" | "Shrubs" | "Trees" | "Climbers" | "Creepers";
 
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 export type TProduct = {
   id: string;
   title: string;
@@ -11,25 +12,36 @@ export type TProduct = {
   quantity: number;
   images: string;
 };
-
-type TInitialState = {
-  products: TProduct[];
+type Filter = {
+  category?: string;
+  priceRange?: string;
+  sort?: string;
+  searchTerm?: string;
 };
 
-const initialState: TInitialState = {
-  products: [],
+type FilterState = {
+  homeFilters: Filter;
+  productFilters: Filter;
+};
+
+const initialState: FilterState = {
+  homeFilters: { category: "", priceRange: "", sort: "", searchTerm: "" },
+  productFilters: { category: "", priceRange: "", sort: "", searchTerm: "" },
 };
 
 const productSlice = createSlice({
-  name: "products",
+  name: "filter",
   initialState,
+
   reducers: {
-    addProduct: (state, action: PayloadAction<TProduct>) => {
-      state.products.push({ ...action.payload });
+    setHomeFilter: (state, action: PayloadAction<Filter>) => {
+      state.homeFilters = action.payload;
+    },
+    setProductFilter: (state, action: PayloadAction<Filter>) => {
+      state.productFilters = action.payload;
     },
   },
 });
 
-export const { addProduct } = productSlice.actions;
-
+export const { setHomeFilter, setProductFilter } = productSlice.actions;
 export default productSlice.reducer;

@@ -1,21 +1,34 @@
 import { baseApi } from "@/redux/api/baseApi";
+import { TOrder } from "@/types";
 
 const productsApi = baseApi.injectEndpoints({
   // auto reloading products when post the data like tagType tagType["product"]
 
   endpoints: (builder) => ({
     getAllProduct: builder.query({
-      query: (page) => {
-        console.log(page, "iam page");
+      query: ({
+        page,
+        searchTerm = "",
+        category = "",
+        priceRange = "",
+        sort = "",
+      }) => {
+        console.log(category, page);
 
         return {
-          url: `/products?page=${page}`,
+          url: `/products`,
           method: "GET",
+          params: {
+            page: page,
+            searchTerm: searchTerm,
+            category,
+            priceRange,
+            sort,
+          },
         };
       },
       providesTags: ["products"],
     }),
-
     addProduct: builder.mutation({
       query: (productInfo) => ({
         url: "/create-product",
@@ -32,6 +45,15 @@ const productsApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["products"],
     }),
+    // get single product
+    getSingleProduct: builder.query({
+      query: (id) => ({
+        url: `/product/${id}`,
+        method: "GET",
+      }),
+      providesTags: ["products"],
+    }),
+
     // update product
     updateProduct: builder.mutation({
       query: (option) => ({
@@ -41,6 +63,15 @@ const productsApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["products"],
     }),
+
+    // order create
+    createOrder: builder.mutation({
+      query: (data: TOrder) => ({
+        url: "/order",
+        method: "POST",
+        body: data,
+      }),
+    }),
   }),
 });
 
@@ -49,4 +80,6 @@ export const {
   useAddProductMutation,
   useDeleteProductMutation,
   useUpdateProductMutation,
+  useGetSingleProductQuery,
+  useCreateOrderMutation,
 } = productsApi;

@@ -11,6 +11,7 @@ import img10 from "./img/img10.jpg";
 import Container from "../Container";
 
 import Gallery from "react-photo-gallery";
+import HeaderText from "../HeaderText";
 
 const photos = [
   { src: img1, width: 4, height: 3 },
@@ -29,11 +30,10 @@ const photos = [
 const ImageGallery = () => {
   return (
     <Container>
-      <h1 className="text-4xl text-green-500 text-center mb-4 font-bold">
-        Our Product Gallery
-      </h1>
-
-      <Gallery photos={photos} />
+      <HeaderText>Our Product Gallery</HeaderText>
+      <div className="mt-10" data-aos="zoom-in">
+        <Gallery photos={photos} />
+      </div>
     </Container>
   );
 };

@@ -7,7 +7,7 @@ type TContainerProps = {
 
 const Container = ({ children, className }: TContainerProps) => {
   // Default classes for the container
-  const defaultClasses = "h-full w-full max-w-7xl my-4 mb-10 mx-auto";
+  const defaultClasses = "h-full w-full max-w-7xl  mb-10 mx-auto";
   // Combine default and custom classes
   const classes = className ? `${defaultClasses} ${className}` : defaultClasses;
 

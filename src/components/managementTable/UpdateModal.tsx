@@ -1,17 +1,17 @@
 import React, { useState } from "react";
 import { Modal } from "antd";
 import { useForm } from "react-hook-form";
-import { useUpdateProductMutation } from "../../redux/features/products/productApi";
 import { TProduct } from "@/types";
 import { FiEdit } from "react-icons/fi";
 import { toast } from "sonner";
+import { useUpdateProductMutation } from "@/redux/features/products/productApi";
 
 interface UpdateModalProps {
   product: TProduct;
 }
 
 const UpdateModal: React.FC<UpdateModalProps> = ({ product }) => {
-  const { register, handleSubmit, setValue } = useForm();
+  const { register, handleSubmit, setValue } = useForm<TProduct>();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [updateProduct] = useUpdateProductMutation();
 
@@ -20,14 +20,18 @@ const UpdateModal: React.FC<UpdateModalProps> = ({ product }) => {
       _id: product._id,
       data,
     };
+
     try {
       const res = await updateProduct(options).unwrap();
       if (res.success) {
         toast.success("Product updated successfully 😎");
         setIsModalOpen(false);
+      } else {
+        toast.error("Failed to update product");
       }
     } catch (error) {
       console.error("Failed to update product:", error);
+      toast.error("Failed to update product");
     }
   };
 
@@ -124,6 +128,7 @@ const UpdateModal: React.FC<UpdateModalProps> = ({ product }) => {
               <input
                 id="rating"
                 type="number"
+                max={5}
                 {...register("rating")}
                 placeholder="Rating"
                 style={{
@@ -186,11 +191,7 @@ const UpdateModal: React.FC<UpdateModalProps> = ({ product }) => {
               }}
             />
           </div>
-          <button
-            className="bg-red-500"
-            type="submit"
-            id="submitForm"
-            style={{ display: "none" }}>
+          <button type="submit" id="submitForm" style={{ display: "none" }}>
             Update
           </button>{" "}
           {/* Hidden submit button */}

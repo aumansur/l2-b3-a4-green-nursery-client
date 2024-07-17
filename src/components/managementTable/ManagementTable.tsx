@@ -1,5 +1,3 @@
-import { FiEdit } from "react-icons/fi";
-
 import { RiDeleteBin6Fill } from "react-icons/ri";
 
 import UpdateModal from "./UpdateModal";
@@ -10,32 +8,33 @@ import {
   useGetAllProductQuery,
 } from "../../redux/features/products/productApi";
 import Container from "../Container";
-import confirm from "antd/es/modal/confirm";
-import { message, Popconfirm, PopconfirmProps } from "antd";
-import AddModal from "./AddModal";
+import { useState } from "react";
+import { useAppSelector } from "@/redux/hooks";
+import { Spin } from "antd";
 
 const ManagementTable: React.FC = () => {
-  const { data, isLoading } = useGetAllProductQuery({});
-  const [deleteProduct] = useDeleteProductMutation();
-  if (isLoading) return <p>Loading...</p>;
+  const [page, setPage] = useState(1);
+  const filterState = useAppSelector((state) => state.products.productFilters);
+  console.log(filterState);
 
-  const products = data.data;
-  const confirm: PopconfirmProps["onConfirm"] = (e) => {
-    console.log(e);
-    message.success("delete product");
-  };
+  const { data, isLoading } = useGetAllProductQuery({ page, ...filterState });
+
+  const [deleteProduct] = useDeleteProductMutation();
+  if (isLoading)
+    return (
+      <div className="flex justify-center items-center">
+        {" "}
+        <Spin size="large" />
+      </div>
+    );
+
+  const products = data?.data;
+  console.log(products.length);
+
   const handleDeleteProducts = async (productId: string) => {
     console.log(productId);
 
     // confirm popup in and design you are sure delete product
-    confirm({
-      title: "Delete Product",
-      content: "Are you sure to delete this product?",
-      okText: "Yes",
-
-      cancelText: "No",
-      onConfirm: handleDeleteProducts,
-    });
 
     try {
       await deleteProduct(productId);
@@ -43,6 +42,14 @@ const ManagementTable: React.FC = () => {
     } catch (error) {
       console.error("Failed to delete product:", error);
     }
+  };
+
+  const handleNextPage = () => {
+    setPage(page + 1);
+  };
+
+  const handlePrevPage = () => {
+    setPage(page - 1);
   };
 
   return (
@@ -84,7 +91,7 @@ const ManagementTable: React.FC = () => {
 
                 <button
                   className="bg-red-500 hover:bg-red-600 text-white py-3 px-3 rounded"
-                  onClick={() => handleDeleteProducts(product._id)}>
+                  onClick={() => handleDeleteProducts(product._id ?? "")}>
                   <RiDeleteBin6Fill size={20} />
                 </button>
               </td>
@@ -92,6 +99,18 @@ const ManagementTable: React.FC = () => {
           ))}
         </tbody>
       </table>
+      <div className="flex justify-end gap-3">
+        <button
+          onClick={handlePrevPage}
+          className="inset-x-0 bottom-0 flex justify-center bg-[#1e531d] font-bold hover:bg-white text-sm md:text-base border hover:border-2 hover:border-blue-500 rounded-xl w-14 md:w-24 p-1 text-gray-100 hover:text-blue-900">
+          prev
+        </button>
+        <button
+          onClick={handleNextPage}
+          className="inset-x-0 bottom-0 flex justify-center bg-[#1e531d] font-bold hover:bg-white text-sm md:text-base border hover:border-2 hover:border-blue-500 rounded-xl w-14 md:w-24 p-1 text-gray-100 hover:text-blue-900">
+          Next
+        </button>
+      </div>
     </Container>
   );
 };

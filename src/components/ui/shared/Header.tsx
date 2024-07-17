@@ -6,7 +6,7 @@ import Container from "@/components/Container";
 const Header = () => {
   return (
     <Container
-      className={`sticky  -py-8 -my-10  top-0 z-[20] flex-wrap mx-auto flex w-full items-center justify-between py-4`}>
+      className={`sticky     top-0 z-[20] flex-wrap mx-auto flex w-full items-center justify-between py-4`}>
       <NavLink to="/">
         <img className="h-16 " src={logoImage} alt="Logo" />
       </NavLink>

@@ -1,4 +1,3 @@
-import Container from "../Container";
 import AddModal from "./AddModal";
 
 const AddProduct = () => {

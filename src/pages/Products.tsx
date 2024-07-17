@@ -1,11 +1,11 @@
 import Container from "@/components/Container";
-import AllProducts from "../components/products/AllProducts";
+
+import ProductCards from "@/components/products/ProductCards";
 
 const Products = () => {
   return (
     <Container>
-      <h2>Welcome to the Products page</h2>
-      <AllProducts />
+      <ProductCards />
     </Container>
   );
 };

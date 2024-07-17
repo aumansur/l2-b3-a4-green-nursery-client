@@ -1,20 +1,17 @@
-import React, { FormEvent, useState } from "react";
-import { Modal, Button } from "antd";
+import React, { useState } from "react";
+import { Modal } from "antd";
 import { useForm } from "react-hook-form";
 import { useAddProductMutation } from "../../redux/features/products/productApi";
 import { TProduct } from "@/types";
-// import { useDispatch } from "react-redux";
 
 const AddModal: React.FC = () => {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit } = useForm<TProduct>();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  // const dispatch = useDispatch();
   const [addProduct] = useAddProductMutation();
   const onSubmit = async (data: TProduct) => {
     console.log("Submitting data:", data); // Log data to console for debugging
     try {
       await addProduct(data).unwrap();
-
       setIsModalOpen(false);
     } catch (error) {
       console.error("Failed to save the product:", error);
@@ -25,13 +22,14 @@ const AddModal: React.FC = () => {
     setIsModalOpen(true);
   };
 
-  const handleOk = () => {
-    document.getElementById("submitForm").click(); // Programmatically click the submit button
-  };
-
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+  function handleOk(e: React.MouseEvent): void {
+    e.preventDefault();
+    document.getElementById("submitForm")?.click(); // Programmatically click the submit button
+    throw new Error("Function not implemented.");
+  }
 
   return (
     <>
@@ -102,6 +100,9 @@ const AddModal: React.FC = () => {
               <input
                 id="rating"
                 type="number"
+                //max 5
+
+                max={5}
                 {...register("rating")}
                 placeholder="Rating"
                 style={{
@@ -164,10 +165,9 @@ const AddModal: React.FC = () => {
               }}
             />
           </div>
-          <button type="submit" id="submitForm" style={{ display: "none" }}>
+          <button type="submit" id="submitForm">
             Submit
-          </button>{" "}
-          {/* Hidden submit button */}
+          </button>
         </form>
       </Modal>
     </>

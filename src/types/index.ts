@@ -1,12 +1,18 @@
-export type TCategory = "Herbs" | "Shrubs" | "Trees" | "Climbers" | "Creepers";
-
 export type TProduct = {
+  buyingQuantity: number;
   _id?: string;
   title: string;
   description: string;
-  category: TCategory;
+  category: string;
   price: number;
   rating: number;
   quantity: number;
   images: string;
+};
+
+export type TOrder = {
+  customerAddress: string;
+  customerPhone: string;
+  customerName: string;
+  productId?: TProduct[];
 };

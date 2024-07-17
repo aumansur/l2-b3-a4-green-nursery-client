@@ -1,6 +1,7 @@
 // CategorySection.js
 
 import Container from "../Container";
+import HeaderText from "../HeaderText";
 import CategoryCard from "./CategoryCard";
 
 const categories = [
@@ -35,10 +36,12 @@ const categories = [
 const CategorySection = () => {
   return (
     <Container className=" mt-10 h-fit">
-      <h1 className=" text-4xl font-bold text-green-500 text-center">
+      <HeaderText className=" text-4xl font-bold text-green-500 text-center">
         Categories
-      </h1>
-      <div className="container mx-auto py-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4">
+      </HeaderText>
+      <div
+        data-aos="fade-right"
+        className="container mx-auto py-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4">
         {categories.map((category, index) => (
           <CategoryCard
             key={index}
