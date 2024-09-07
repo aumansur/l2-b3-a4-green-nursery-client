@@ -23,30 +23,19 @@ type Option = {
 
 const ProductCards = () => {
   const [page, setPage] = useState(1);
-
   const { control } = useForm();
-  // const [sortValue, setSortValue] = useState("asc");
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const res = await fetch(
-  //       "https://green-nursery-servel-l2b3a4.vercel.app/api/product-count"
-  //     );
-  //     // const data = await res.json();
-  //     // setCount(data.count);
-  //   };
-  //   fetchData();
-  // }, []);
-
-  // const [filter, setFilter] = useState({ priceRange: "", category: "" });
   const filterState = useAppSelector((state) => state.products.productFilters);
   console.log(filterState);
-
   const {
     data: productData,
     isLoading,
     error,
-  } = useGetAllProductQuery({ page, ...filterState });
+  } = useGetAllProductQuery({
+    page,
+    ...filterState,
+  });
+
+  // const productData = data.data;
 
   if (isLoading)
     return (

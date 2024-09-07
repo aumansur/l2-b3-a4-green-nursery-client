@@ -29,7 +29,7 @@ const ManagementTable: React.FC = () => {
     );
 
   const products = data?.data;
-  console.log(products.length);
+  console.log(products?.length);
 
   const handleDeleteProducts = async (productId: string) => {
     console.log(productId);
@@ -79,13 +79,13 @@ const ManagementTable: React.FC = () => {
             <tr key={product._id} className="border-b">
               <td className="py-3 px-4">
                 <img
-                  src={product.images}
+                  src={product?.images}
                   className="w-16 h-12 sm:w-20 sm:h-16 rounded"
                 />
               </td>
-              <td className="py-3 px-4">{product.title}</td>
-              <td className="py-3 px-4">${product.price}</td>
-              <td className="py-3 px-4">{product.category}</td>
+              <td className="py-3 px-4">{product?.title}</td>
+              <td className="py-3 px-4">${product?.price}</td>
+              <td className="py-3 px-4">{product?.category}</td>
               <td className="py-3 px-4">
                 <UpdateModal product={product} />
 

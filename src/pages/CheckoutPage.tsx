@@ -1,4 +1,4 @@
-import { Button, Input, Form, Typography, List } from "antd";
+import { Input, Form, Typography, List } from "antd";
 
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { TOrder, TProduct } from "@/types";
@@ -72,20 +72,31 @@ const CheckoutPage = () => {
         <div className="md:w-1/2">
           <div className="bg-gray-100 min-w-96 flex flex-col h-[330px] overflow-y-scroll gap-4 px-4 pt-6 pb-4 rounded-lg">
             <List
+              className="gap-4"
               itemLayout="horizontal"
               dataSource={uniqueCartProducts}
               renderItem={(product) => (
-                <div className="flex gap-4">
+                <div className="flex border border-red-300   gap-4 mb-4">
                   <img
                     className="w-28 h-30 rounded-md"
                     src={product.images}
                     alt=""
                   />
                   <div>
-                    <p>title: {product.title}</p>
+                    <p>Title: {product.title}</p>
                     <p>{`Category: ${product.category}`}</p>
                     <div>
-                      <Text>Qty: {product.buyingQuantity}</Text>
+                      <Text>Quantity: {product.buyingQuantity}</Text>
+                    </div>
+                  </div>
+
+                  <div className="flex justify-end border">
+                    <div className="">
+                      <p>Price: ${product.price.toFixed(2)}</p>
+                      <p>
+                        Total Price: $
+                        {(product.price * product.buyingQuantity).toFixed(2)}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -121,9 +132,9 @@ const CheckoutPage = () => {
               <Input placeholder="Enter your address" />
             </Form.Item>
             <Form.Item>
-              <Button type="primary" htmlType="submit">
+              <button type="submit" className="my-primary-btn">
                 Order Confirm
-              </Button>
+              </button>
             </Form.Item>
           </Form>
         </div>
