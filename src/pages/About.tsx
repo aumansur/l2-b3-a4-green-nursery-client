@@ -12,10 +12,10 @@ const About: React.FC = () => {
           />
         </div>
         <div className="mt-8 md:mt-0 md:w-1/2 md:pl-8">
-          <h2 className="text-2xl md:text-3xl font-bold text-green-600">
+          <h2 className="text-2xl md:text-3xl text-center font-bold text-green-600">
             About Us
           </h2>
-          <p className="mt-4 text-gray-700">
+          <p className="mt-4 text-gray-700 text-justify">
             Welcome to our Green Nursery! We are passionate about plants and
             dedicated to providing our customers with a diverse selection of
             high-quality plants, trees, and shrubs. Our mission is to inspire

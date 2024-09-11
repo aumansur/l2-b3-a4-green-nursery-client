@@ -1,21 +1,20 @@
-import { useState } from "react";
-
-import "./search.css";
+import { useState, useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useGetAllProductQuery } from "@/redux/features/products/productApi";
 import ProductCard from "./ProductCard";
 import Container from "../Container";
-import { useAppSelector } from "@/redux/hooks";
-
 import { TProduct } from "@/types";
-
 import HeaderText from "../HeaderText";
-
 import { useForm, Controller } from "react-hook-form";
-
 import { Input, Select, Spin } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
+import {
+  setSearchTerm,
+  setSortBy,
+  applyFilters,
+  setProducts,
+} from "@/redux/features/products/filterProductSlice";
 
-// Define the type for Select options
 type Option = {
   value: string;
   label: string;
@@ -24,8 +23,11 @@ type Option = {
 const ProductCards = () => {
   const [page, setPage] = useState(1);
   const { control } = useForm();
+  const dispatch = useAppDispatch();
   const filterState = useAppSelector((state) => state.products.productFilters);
-  console.log(filterState);
+  const filteredProducts =
+    useAppSelector((state) => state.filterProductSlice.filteredProducts) || []; // Ensure it's an array
+
   const {
     data: productData,
     isLoading,
@@ -35,30 +37,17 @@ const ProductCards = () => {
     ...filterState,
   });
 
-  // const productData = data.data;
+  useEffect(() => {
+    if (productData) {
+      dispatch(setProducts(productData.data)); // Dispatch the products to Redux store
+      dispatch(applyFilters()); // Apply filters after setting products
+    }
+  }, [productData, dispatch]);
 
-  if (isLoading)
-    return (
-      <div className="flex justify-center items-center">
-        {" "}
-        <Spin size="large" />
-      </div>
-    );
-
-  if (error) {
-    console.log(error);
-
-    return <div>Error fetching products</div>;
-  }
-  //================================================
-
-  const handleNextPage = () => {
-    setPage(page + 1);
-  };
-
-  const handlePrevPage = () => {
-    setPage(page - 1);
-  };
+  const sortOptions: Option[] = [
+    { value: "desc", label: "Highest" },
+    { value: "asc", label: "Lowest" },
+  ];
 
   if (isLoading) {
     return (
@@ -68,15 +57,9 @@ const ProductCards = () => {
     );
   }
 
-  // const onSubmit = (data) => {
-  //   console.log("clicked");
-  //   console.log(data);
-  // };
-
-  const sortOptions: Option[] = [
-    { value: "desc", label: "Highest" },
-    { value: "asc", label: "Lowest" },
-  ];
+  if (error) {
+    return <div>Error fetching products</div>;
+  }
 
   return (
     <Container>
@@ -96,6 +79,10 @@ const ProductCards = () => {
                   {...field}
                   placeholder="Search Products"
                   className="min-w-80"
+                  onChange={(e) => {
+                    dispatch(setSearchTerm(e.target.value)); // Dispatch search term to Redux
+                    field.onChange(e);
+                  }}
                 />
               )}
             />
@@ -115,7 +102,7 @@ const ProductCards = () => {
                 className="w-[180px]"
                 options={sortOptions}
                 onChange={(value) => {
-                  // setSortValue(value);
+                  dispatch(setSortBy(value)); // Dispatch sort order to Redux
                   field.onChange(value);
                 }}
               />
@@ -123,23 +110,25 @@ const ProductCards = () => {
           />
         </div>
 
-        {/* ============= */}
-
+        {/* Display Products */}
         <div
-          className={`grid grid-cols-1  md:grid-cols-4 justify-items-center `}>
-          {productData?.data?.map((product: TProduct) => (
+          className={`grid grid-cols-1  md:grid-cols-4 justify-items-center`}>
+          {filteredProducts.map((product: TProduct) => (
             <ProductCard product={product} key={product?._id} />
           ))}
         </div>
       </div>
+
+      {/* Pagination Buttons */}
       <div className="flex justify-end gap-3">
         <button
-          onClick={handlePrevPage}
+          onClick={() => setPage(page - 1)}
+          disabled={page <= 1}
           className="inset-x-0 bottom-0 flex justify-center bg-[#1e531d] font-bold hover:bg-white text-sm md:text-base border hover:border-2 hover:border-blue-500 rounded-xl w-14 md:w-24 p-1 text-gray-100 hover:text-blue-900">
-          prev
+          Prev
         </button>
         <button
-          onClick={handleNextPage}
+          onClick={() => setPage(page + 1)}
           className="inset-x-0 bottom-0 flex justify-center bg-[#1e531d] font-bold hover:bg-white text-sm md:text-base border hover:border-2 hover:border-blue-500 rounded-xl w-14 md:w-24 p-1 text-gray-100 hover:text-blue-900">
           Next
         </button>

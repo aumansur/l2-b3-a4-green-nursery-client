@@ -35,12 +35,13 @@ const ProductCard = ({ product }: { product: TProduct }) => {
               value={parseInt(product.rating.toString())}
               readOnly
             />
-            <p className="text-gray-900 font-bold">{product.rating}</p>
           </div>
         </div>
         <div className="px-6 py-4 flex justify-between items-center">
           <NavLink to={`/product/${product._id}`}>
-            <button className="my-primary-btn">Details</button>
+            <button className="my-primary-btn-outline transition ">
+              Details
+            </button>
           </NavLink>
           <div>
             <button

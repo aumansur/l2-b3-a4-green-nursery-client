@@ -76,7 +76,7 @@ const CheckoutPage = () => {
               itemLayout="horizontal"
               dataSource={uniqueCartProducts}
               renderItem={(product) => (
-                <div className="flex border border-red-300   gap-4 mb-4">
+                <div className="flex   gap-4 mb-4">
                   <img
                     className="w-28 h-30 rounded-md"
                     src={product.images}
@@ -90,7 +90,7 @@ const CheckoutPage = () => {
                     </div>
                   </div>
 
-                  <div className="flex justify-end border">
+                  <div className="flex justify-end ">
                     <div className="">
                       <p>Price: ${product.price.toFixed(2)}</p>
                       <p>
@@ -104,7 +104,7 @@ const CheckoutPage = () => {
             />
           </div>
           <div className="mt-5 flex items-center justify-end">
-            <Title level={3}>${totalPrice.toFixed(2)}</Title>
+            <Title level={3}>Grand total price: ${totalPrice.toFixed(2)}</Title>
           </div>
         </div>
         <div className="bg-gray-100-100 md:w-1/2">
