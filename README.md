@@ -1,6 +1,6 @@
 # Green Online Nursery
 
-ForestAtHome is a responsive web application designed for browsing and purchasing nursery plants online. This repository contains the frontend implementation using React, Redux, TypeScript, and styled-components.
+Green Nursery is a responsive web application designed for browsing and purchasing nursery plants online. This repository contains the frontend implementation using React, Redux, TypeScript, and styled-components.
 
 - [Live Site](https://green-nursery-client-l2b3a4.vercel.app/)
 - [Project Preview Video](https://www.youtube.com/watch?v=ztzE5YffC0o)
@@ -23,7 +23,7 @@ ForestAtHome is a responsive web application designed for browsing and purchasin
 
 ## Installation
 
-To run ForestAtHome locally, follow these steps:
+To run Green nursery locally, follow these steps:
 
 1. Clone the repository: `git clone https://github.com/aumansur/l2-b3-a4-green-nursery-client.git`
 2. Navigate to the project directory: `cd l2-b3-a4-green-nursery-client`
@@ -39,4 +39,4 @@ To run ForestAtHome locally, follow these steps:
 
 ## Contact
 
-For issues and feedback, please contact Ahammad ullah mansur at ahammadullah2001@gmail.com
+For issues and feedback, please contact Ahammad ullah mansur at ahammadullah2001@gmail.com.
